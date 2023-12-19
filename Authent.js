@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserSessionPersistence  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence  } from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -22,6 +22,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
 
 export default function AuthScreen() {
   const [email, setEmail] = useState(''); 
@@ -57,10 +60,12 @@ export default function AuthScreen() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        const navigation = useNavigation();
         console.log('Utilisateur connecté :', user);
+
         if (Platform.OS === 'android') {
           ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT)
-          useNavigation.navigate('Main');
+          //navigation.navigate('Main');
         } else {
           AlertIOS.alert('Vous êtes maintenant connecté !');
         }
@@ -70,6 +75,8 @@ export default function AuthScreen() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log('erreur:', errorMessage, );
+
       });
   };
 
@@ -112,3 +119,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+// https://stackoverflow.com/questions/77048569/issue-with-initializing-firebase-auth-for-react-native-using-asyncstorage
