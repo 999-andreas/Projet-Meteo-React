@@ -6,6 +6,7 @@ import axios from "axios"
 
 import CurrentWeather from "./components/currentWeather"
 import Forecasts from "./components/Forecasts"
+import Search from "./components/Search"
 
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`
@@ -59,8 +60,10 @@ export default function App() {
     
   }
 
+
   return (
     <View style={styles.container}>
+      <Search data={data}/>
       <CurrentWeather data={data} />
       <Forecasts data={data} />
     </View>

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react"
-import {View, Text, Image, StyleSheet} from "react-native"
+import {View, Text, Image, StyleSheet, FlatList} from "react-native"
 import {isSameDay} from "date-fns"
+import { ListItem, SearchBar } from "@rneui/base";
+
 
 //récupération de l'image liée à la météo
 const getIcon = (icon) => `https://openweathermap.org/img/wn/${icon}@4x.png` 
-
 
 export default function CurrentWeather({ data }) {
   const [currentWeather, setCurrentWeather] = useState(null)
@@ -19,6 +20,8 @@ export default function CurrentWeather({ data }) {
     setCurrentWeather(currentW[0])
 
   }, [data])
+
+  
 
   //Récupération et affichage des données de l'API avec la localisation
   return (
