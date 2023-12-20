@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
+import { AsyncStorage } from '@react-native-async-storage/async-storage'; // Si vous utilisez AsyncStorage
 import { View, StyleSheet, TextInput, Button, ToastAndroid, Platform, AlertIOS } from 'react-native';
-import firebase from 'firebase/app';
 import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 
 
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence  } from "firebase/auth";
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZJtasU-lCRwzOJy6SvVhnFp0mlHdhi6Q",
@@ -21,12 +18,26 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-});
 
-export default function AuthScreen() {
+
+
+let auth, app;
+
+if (!getApps().length) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage),
+    });
+  } catch (error) {
+    console.log("Error initializing app: " + error);
+  }
+} else {
+  app = getApp();
+  auth = getAuth(app);
+}
+
+export default function AuthScreen({navigation}) {
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
 
@@ -55,29 +66,34 @@ export default function AuthScreen() {
 
   const handleSignIn = async () => {
     const auth = getAuth();
-
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        const navigation = useNavigation();
         console.log('Utilisateur connecté :', user);
 
         if (Platform.OS === 'android') {
-          ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT)
-          //navigation.navigate('Main');
+          ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT);
+          
         } else {
           AlertIOS.alert('Vous êtes maintenant connecté !');
         }
 
+        navigation.navigate('Main');
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         console.log('erreur:', errorMessage, );
+        if (Platform.OS === 'android') {
+          ToastAndroid.show('mauvais mdp ou mail', ToastAndroid.SHORT);
+          
+        } else {
+          AlertIOS.alert('mauvais mdp ou mail');
+        }
 
       });
+
   };
 
   return (
@@ -100,6 +116,8 @@ export default function AuthScreen() {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

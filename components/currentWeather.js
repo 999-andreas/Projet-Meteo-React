@@ -58,7 +58,7 @@ export default function CurrentWeather({ data }) {
   )
 }
 
-const COLOR = "56545D"
+const COLOR = "#000000"
 
 const styles = StyleSheet.create({
   container: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   bigInfo: {
     alignItems: "center",
     marginLeft: 30,
-    marginBottom: 30
+    marginBottom: 30,
   },
 
   city: {
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: COLOR,
+    flexShrink: 1,
   },
 
   tempRange: {
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   details: {
-    alignItems: 'left',
+    alignItems: "baseline",
     fontSize: 16,
     fontWeight: '400',
     color: COLOR,

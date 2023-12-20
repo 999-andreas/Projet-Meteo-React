@@ -1,11 +1,11 @@
 // App.js ou index.js
 
 import React from 'react';
-import AppNavigator from './AppNavigator'; // Assurez-vous de définir le chemin correct
+import Navigation from './AppNavigator'; // Assurez-vous de définir le chemin correct
 
 const App = () => {
   return (
-    <AppNavigator />
+    <Navigation />
   );
 };
 
