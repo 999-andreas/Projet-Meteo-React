@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="Main" component={MeteoScreen} />
       </Stack.Navigator>

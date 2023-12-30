@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react"
-import {View, Text, Image, StyleSheet} from "react-native"
+import {View, Text, Image, StyleSheet, Dimensions} from "react-native"
 import {isSameDay} from "date-fns"
 
 //récupération de l'image liée à la météo
 const getIcon = (icon) => `https://openweathermap.org/img/wn/${icon}@4x.png` 
-
+const screenWidth = Dimensions.get('window').width;
 
 export default function CurrentWeather({ data }) {
   const [currentWeather, setCurrentWeather] = useState(null)
@@ -34,9 +34,10 @@ export default function CurrentWeather({ data }) {
             <Text style={styles.temp} >{Math.round(currentWeather?.main.temp)}°C</Text>
             <Text style={styles.tempRange}>↑{Math.round(currentWeather?.main?.temp_max)}°
             ↓{Math.round(currentWeather?.main?.temp_min)}° </Text>
-            <Text style={styles.description}>{currentWeather?.weather[0].description?
+            {/*<Text style={styles.description}>{currentWeather?.weather[0].description?
               currentWeather.weather[0].description.charAt(0).toUpperCase() +
-              currentWeather.weather[0].description.slice(1): ''} </Text>
+            currentWeather.weather[0].description.slice(1): ''} </Text>*/}
+            <Text style={styles.description}>Partiellement couvert</Text>
           </View>
 
           <View>
@@ -83,6 +84,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 30,
     marginBottom: 30,
+    flexWrap: 'wrap',
+    width: screenWidth - screenWidth/2 - 60,
   },
 
   city: {
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
     color: COLOR,
   },
 
-  image: {width:200, height: 200, marginTop: 10},
+  image: {width:screenWidth - screenWidth/2, height: 200, marginTop: 10},
 
   temp: {
     fontSize: 60,
@@ -106,7 +109,8 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    fontSize: 24,
+    fontSize: 20,
+    textAlign: "center",
     fontWeight: "bold",
     color: COLOR,
     flexShrink: 1,
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '400',
     color: COLOR,
-    marginTop: 4, // Adjust spacing as needed
+    marginTop: 4,
   },
 
   details: {
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: COLOR,
-    marginLeft: 40, // May need to adjust based on parent container size
+    marginLeft: 40,
   },
 
 })

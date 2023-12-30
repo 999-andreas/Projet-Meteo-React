@@ -43,10 +43,10 @@ export default function Forecasts({ data }) {
       showsHorizontalScrollIndicator={false}
     >
       {forecasts.map((f) => (
-        <View>
+        <View key={f.day}>
           <Text style={styles.day}>{f.day.charAt(0).toUpperCase() + f.day.slice(1)}</Text>
           <View style={styles.container}>
-            {f.data.map(w => <Weather forecast={w} />)}
+          {f.data.map(w => <Weather key={`${w.date.getTime()}-${w.hour}`} forecast={w} />)}
           </View>
         </View>
       ))}
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   day: {
     fontSize:16,
     fontWeight: "bold",
+    marginTop: 20,
     marginBottom: 10,
     marginLeft: 5
   },

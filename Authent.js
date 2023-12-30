@@ -52,7 +52,7 @@ export default function AuthScreen({navigation}) {
         if (Platform.OS === 'android') {
           ToastAndroid.show('Vous êtes maintenant inscrit !', ToastAndroid.SHORT)
         } else {
-          AlertIOS.alert('Vous êtes maintenant inscrit !');
+          //AlertIOS.alert('Vous êtes maintenant inscrit !');
         }
 
         // ...
@@ -76,7 +76,7 @@ export default function AuthScreen({navigation}) {
           ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT);
           
         } else {
-          AlertIOS.alert('Vous êtes maintenant connecté !');
+          //AlertIOS.alert('Vous êtes maintenant connecté !');
         }
 
         navigation.navigate('Main');
@@ -89,13 +89,16 @@ export default function AuthScreen({navigation}) {
           ToastAndroid.show('mauvais mdp ou mail', ToastAndroid.SHORT);
           
         } else {
-          AlertIOS.alert('mauvais mdp ou mail');
+          //AlertIOS.alert('mauvais mdp ou mail');
         }
 
       });
 
-  };
 
+  };
+  const goToMain = async () => {
+    navigation.navigate('Main');
+  }
   return (
     <View style={styles.container}>
       <TextInput
@@ -113,6 +116,7 @@ export default function AuthScreen({navigation}) {
       />
       <Button title="S'inscrire" onPress={handleSignUp} />
       <Button title="Se connecter" onPress={handleSignIn} />
+      <Button title="Accès direct" onPress={goToMain} />
     </View>
   );
 }
