@@ -34,10 +34,10 @@ export default function CurrentWeather({ data }) {
             <Text style={styles.temp} >{Math.round(currentWeather?.main.temp)}°C</Text>
             <Text style={styles.tempRange}>↑{Math.round(currentWeather?.main?.temp_max)}°
             ↓{Math.round(currentWeather?.main?.temp_min)}° </Text>
-            {/*<Text style={styles.description}>{currentWeather?.weather[0].description?
+            <Text style={styles.description}>{currentWeather?.weather[0].description?
               currentWeather.weather[0].description.charAt(0).toUpperCase() +
-            currentWeather.weather[0].description.slice(1): ''} </Text>*/}
-            <Text style={styles.description}>Partiellement couvert</Text>
+            currentWeather.weather[0].description.slice(1): ''} </Text>
+            {/*<Text style={styles.description}>Partiellement nuageux</Text>*/}
           </View>
 
           <View>
