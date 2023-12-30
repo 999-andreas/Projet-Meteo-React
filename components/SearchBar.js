@@ -9,11 +9,27 @@ const WeatherSearch = () => {
   const debounceIdRef = useRef(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const renderCityItem = ({ item }) => {
+  const renderCityItem = ({ item, index }) => {
+    const isFirstItem = index === 0;
+    const isLastItem = index === cityList.length - 1;
+
     return (
-      <TouchableOpacity onPress={() => {/* Gérer la sélection ici */}}>
-        <Text>{item.name}, {item.regionCode}, {item.country}</Text>
-      </TouchableOpacity>
+      <TouchableOpacity 
+      style={[styles.cityItem,
+              index === cityList.length - 1 && { borderBottomWidth: 0 },
+              isFirstItem && { paddingTop: 0 },
+              isLastItem && { paddingBottom: 0, borderBottomWidth: 0 }
+            ]} 
+      onPress={() => {
+        // Gérer la sélection de la ville ici
+        console.log("Ville sélectionnée:", item.name);
+        setModalVisible(false); // Fermer le modal après sélection
+      }}
+    >
+      {/*<Text style={styles.cityText}>{item.name}, {item.regionCode}, {item.country}</Text>*/}
+      <Text style={styles.cityName}>{item.name}</Text>
+      <Text style={styles.cityDetails}>{item.regionCode + ', ' + item.country}</Text>
+    </TouchableOpacity>
     );
   };
   
@@ -115,6 +131,24 @@ const styles = StyleSheet.create({
     marginTop: '30%',
     borderRadius: 10,
     width: '90%',
+  },
+  cityItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#000000',
+  },
+  cityText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  cityName: {
+    fontSize: 16,
+    fontWeight: 'bold', // Mettre le nom de la ville en gras
+    color: 'black',
+  },
+  cityDetails: {
+    fontSize: 16,
+    color: 'black', // Styles pour la région et le pays
   },
 });
 

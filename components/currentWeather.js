@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginBottom: 30,
     flexWrap: 'wrap',
-    width: screenWidth - screenWidth/2 - 60,
+    width: screenWidth - screenWidth/2 - 40,
   },
 
   city: {
