@@ -8,11 +8,12 @@ import axios from "axios"
 import CurrentWeather from "./components/currentWeather"
 import Forecasts from "./components/Forecasts"
 import Search from './components/SearchBar';
+import NavBar from './components/NavBar';
 
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`
 
-export default function App() {
+export default function App({ route }) {
 
 //Récupération des coordonnées de user
   const [loading, setLoading] = useState(true);
@@ -59,6 +60,7 @@ export default function App() {
         <CurrentWeather data={data} />
         <Forecasts data={data} />
       </ScrollView>
+      <NavBar data={data} auth={route.params.auth} database={route.params.database}/>
       
     </View>
   );

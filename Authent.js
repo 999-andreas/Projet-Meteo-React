@@ -4,12 +4,15 @@ import { AsyncStorage } from '@react-native-async-storage/async-storage'; // Si 
 import { View, StyleSheet, TextInput, Button, ToastAndroid, Platform, AlertIOS } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { getDatabase } from "firebase/database";
+
 
 
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZJtasU-lCRwzOJy6SvVhnFp0mlHdhi6Q",
   authDomain: "weatherapp-d7948.firebaseapp.com",
+  databaseURL: "https://weatherapp-d7948-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "weatherapp-d7948",
   storageBucket: "weatherapp-d7948.appspot.com",
   messagingSenderId: "152564061772",
@@ -21,7 +24,7 @@ const firebaseConfig = {
 
 
 
-let auth, app;
+let auth, app, database;
 
 if (!getApps().length) {
   try {
@@ -29,12 +32,15 @@ if (!getApps().length) {
     auth = initializeAuth(app, {
       persistence: getReactNativePersistence(AsyncStorage),
     });
+    database = getDatabase(app);
   } catch (error) {
     console.log("Error initializing app: " + error);
   }
 } else {
   app = getApp();
   auth = getAuth(app);
+  database = getDatabase(app);
+
 }
 
 export default function AuthScreen({navigation}) {
@@ -79,7 +85,7 @@ export default function AuthScreen({navigation}) {
           //AlertIOS.alert('Vous êtes maintenant connecté !');
         }
 
-        navigation.navigate('Main');
+        navigation.navigate('Main',{auth, database});
         // ...
       })
       .catch((error) => {
@@ -97,7 +103,7 @@ export default function AuthScreen({navigation}) {
 
   };
   const goToMain = async () => {
-    navigation.navigate('Main');
+    navigation.navigate('Main',{auth});
   }
   return (
     <View style={styles.container}>
