@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button } from 'react-native';
-import { getFavoriteLocationsByUser, addFavoriteLocation } from '../FavoriteManager';
+import { addFavoriteLocation } from '../FavoriteManager';
+
 
 const AddFavoriteScreen = ({navigation, data, auth, database }) => {
   const handleAddFavorite = (latitude, longitude, ville) => {
@@ -12,11 +13,13 @@ const AddFavoriteScreen = ({navigation, data, auth, database }) => {
     addFavoriteLocation(ville, latitude, longitude, {auth, database})
       .then(() => {
         // Après avoir ajouté le favori, naviguez vers l'écran qui affiche la liste des favoris
-        navigation.navigate('Favoris', {auth});
+        
+        navigation.navigate('Favoris', {auth, database});
       })
       .catch((error) => {
         console.error('Erreur lors de l\'ajout du lieu favori : ', error);
       });
+      
   };
 
   return (

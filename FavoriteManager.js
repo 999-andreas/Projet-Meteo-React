@@ -1,33 +1,30 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { getDatabase, ref, set  } from "firebase/database";
+import { getDatabase, ref, set, child, get} from "firebase/database";
 
+const getFavoriteLocationsByUser = (userID) => {
+  const currentUser = auth.currentUser;
 
+  if (!currentUser) {
+    return Promise.reject('Utilisateur non connecté.');
+  }
 
-const getFavoriteLocationsByUser = (userID, {auth, database}) => {
-    const currentUser = auth.currentUser;
+  const database = getDatabase();
+  const dbRef = ref(database);
+  const userFavoritesRef = child(dbRef, `users/${userID}/favorites`);
 
-    console.log(auth);
-    console.log(database);
-
-
-    if (!currentUser) {
-        return Promise.reject('Utilisateur non connecté.');
-    }
-
-    // Initialisation de la base de données Firebase uniquement ici
-    //const database = firebase.database();
-
-    return database
-        .ref(`users/${userID}/favorites`)
-        .once('value')
-        .then((snapshot) => {
-            return snapshot.val();
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des lieux favoris : ', error);
-            return null;
-        });
+  return get(userFavoritesRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        return null;
+      }
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la récupération des lieux favoris(FavoriteManager.js) : ', error);
+      return null;
+    });
 };
 
 const addFavoriteLocation = (favoriteID, latitude, longitude, { auth }) => {

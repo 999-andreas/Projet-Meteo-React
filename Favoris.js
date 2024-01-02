@@ -6,6 +6,9 @@ import FavoriteManager from './FavoriteManager'; // Importez votre gestionnaire 
 
 const FavoriteLocationsScreen = ({auth}) => {
   const [favoriteLocations, setFavoriteLocations] = useState([]);
+  
+  //const { auth } = auth.currentUser;
+
 
   useEffect(() => {
     const fetchFavoriteLocations = async () => {
@@ -20,7 +23,7 @@ const FavoriteLocationsScreen = ({auth}) => {
             setFavoriteLocations(favoriteLocationsArray);
           }
         } catch (error) {
-          console.error('Erreur lors de la récupération des lieux favoris : ', error);
+          console.error('Erreur lors de la récupération des lieux favoris (Favoris.js): ', error);
         }
       } else {
         console.error('Utilisateur non connecté.');

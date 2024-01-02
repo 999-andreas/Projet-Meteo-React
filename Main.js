@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Image, ScrollView, Button } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
@@ -13,7 +13,7 @@ import NavBar from './components/NavBar';
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`
 
-export default function App({ route }) {
+export default function App({ navigation, route }) {
 
 //Récupération des coordonnées de user
   const [loading, setLoading] = useState(true);
@@ -53,6 +53,16 @@ export default function App({ route }) {
     </View>
   }
 
+  const goToFavoris = async () => {
+    let auth= route.params.auth;
+    auth = auth.currentUser;
+    auth = auth.uid;
+
+    const database= route.params.database;
+
+    navigation.navigate('Favoris', auth);
+  }
+
   return (
     <View style={styles.container}>
       <Search data={data} />
@@ -60,8 +70,11 @@ export default function App({ route }) {
         <CurrentWeather data={data} />
         <Forecasts data={data} />
       </ScrollView>
-      <NavBar data={data} auth={route.params.auth} database={route.params.database}/>
-      
+      <NavBar data={data} auth={route.params.auth} database={route.params.database} navigation={navigation}/>
+      <Button
+        title="vers les favoris"
+        onPress={goToFavoris} // Exemple de valeurs pour latitude et longitude
+      />
     </View>
   );
 }
