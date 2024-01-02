@@ -2,8 +2,9 @@ import React, { useState, useRef } from 'react';
 import { View, FlatList, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import axios from 'axios';
+import { onCitySelect } from '../Main';
 
-const WeatherSearch = () => {
+const WeatherSearch = (props) => {
   const [search, setSearch] = useState('');
   const [cityList, setCityList] = useState([]);
   const debounceIdRef = useRef(null);
@@ -22,6 +23,7 @@ const WeatherSearch = () => {
             ]} 
       onPress={() => {
         // Gérer la sélection de la ville ici
+        props.onCitySelect(item);
         console.log("Ville sélectionnée:", item.name);
         setModalVisible(false); // Fermer le modal après sélection
       }}
@@ -137,12 +139,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#000000',
   },
-  cityText: {
-    fontSize: 16,
-    color: 'black',
-  },
   cityName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold', // Mettre le nom de la ville en gras
     color: 'black',
   },

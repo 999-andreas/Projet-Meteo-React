@@ -8,6 +8,7 @@ import axios from "axios"
 import CurrentWeather from "./components/currentWeather"
 import Forecasts from "./components/Forecasts"
 import Search from './components/SearchBar';
+import { fetchWeather } from './weatherApi';
 
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`
@@ -17,6 +18,8 @@ export default function App() {
 //Récupération des coordonnées de user
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null); // État pour la ville sélectionnée
+
   useEffect(() => {
     const getCoordinates = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -25,24 +28,23 @@ export default function App() {
       }
 
       const userLocation = await Location.getCurrentPositionAsync();
-      getWeather(userLocation);
+      updateWeather(userLocation.coords.latitude, userLocation.coords.longitude);
     };
-
     getCoordinates();
   }, []);
 
-//Renvoi des données depuis le call de L'API
-  const getWeather = async (location) => {
-    try {
-      const response = await axios.get(API_URL(location.coords.latitude, location.coords.longitude))
+ // Fonction pour mettre à jour la météo
+ const updateWeather = async (lat, lon) => {
+  setLoading(true);
+  const weatherData = await fetchWeather(lat, lon);
+  setData(weatherData);
+  setLoading(false);
+};
 
-      setData(response.data)
-      setLoading(false)
-
-    } catch(e) {
-      console.log("Erreur dans getWeather")
-    }
-  };
+const onCitySelect = (city) => {
+  setSelectedCity(city);
+  updateWeather(city.latitude, city.longitude); // Mettez à jour la météo pour la ville sélectionnée
+};
 
 //affichage d'un chargement pendant la récupération de la position gps
   if (loading) {
@@ -54,7 +56,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Search data={data} />
+      <Search onCitySelect={onCitySelect} data={data} />
       <ScrollView>
         <CurrentWeather data={data} />
         <Forecasts data={data} />
