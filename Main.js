@@ -9,6 +9,7 @@ import CurrentWeather from "./components/currentWeather"
 import Forecasts from "./components/Forecasts"
 import Search from './components/SearchBar';
 import NavBar from './components/NavBar';
+import MonCompteScreen from './MonCompte';
 
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`

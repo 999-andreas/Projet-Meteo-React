@@ -4,6 +4,7 @@ import AuthScreen from './Authent'; // Assurez-vous de définir le chemin correc
 import MeteoScreen from './Main';
 import FavoriteLocationsScreen from './Favoris';
 import AddFavoriteScreen from './components/NavBar';
+import MonCompteScreen from './MonCompte'
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ function Navigation() {
         <Stack.Screen name="Main" component={MeteoScreen} />
         <Stack.Screen name="NavBar" component={AddFavoriteScreen} />
         <Stack.Screen name="Favoris" component={FavoriteLocationsScreen} />
+        <Stack.Screen name="Compte" component={MonCompteScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

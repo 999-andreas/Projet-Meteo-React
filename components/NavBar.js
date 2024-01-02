@@ -22,12 +22,20 @@ const AddFavoriteScreen = ({navigation, data, auth, database }) => {
       
   };
 
+  const goToCompte = async () => {
+    navigation.navigate('Compte', auth);
+  }
+
   return (
     <View>
       {/* Bouton pour ajouter un favori */}
       <Button
         title="Ajouter un favori"
         onPress={() => handleAddFavorite(40.7128, -74.0060, "Paris")} // Exemple de valeurs pour latitude et longitude
+      />
+      <Button
+        title="vers mon compte"
+        onPress={goToCompte} // Exemple de valeurs pour latitude et longitude
       />
     </View>
   );
