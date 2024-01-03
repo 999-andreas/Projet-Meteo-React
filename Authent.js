@@ -1,7 +1,7 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence, sendEmailVerification } from "firebase/auth";
 import { AsyncStorage } from '@react-native-async-storage/async-storage'; // Si vous utilisez AsyncStorage
-import { View, StyleSheet, TextInput, Button, ToastAndroid, Platform, AlertIOS } from 'react-native';
+import { View, StyleSheet, TextInput, Button, ToastAndroid, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { getDatabase } from "firebase/database";
@@ -52,19 +52,16 @@ export default function AuthScreen({navigation}) {
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        console.log('Utilisateur créé :', user);
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('Vous êtes maintenant inscrit !', ToastAndroid.SHORT)
-        } else {
-          //AlertIOS.alert('Vous êtes maintenant inscrit !');
-        }
+          // Email verification sent!
+          console.log('Utilisateur créé :', user);
+          Alert.alert('Success', 'vous etes inscrit');
+        
 
-        // ...
+        
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+        Alert.alert('Error', error);
+
       });
   };
 
@@ -76,25 +73,16 @@ export default function AuthScreen({navigation}) {
         const user = userCredential.user;
         console.log('Utilisateur connecté :', user);
 
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT);
-          
-        } else {
-          //AlertIOS.alert('Vous êtes maintenant connecté !');
-        }
+        Alert.alert('Success', 'vous etes connecte');
 
+        console.log(user.uid);
         navigation.navigate('Main', { userId: user.uid });
         // ...
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log('erreur:', errorMessage, );
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('mauvais mdp ou mail', ToastAndroid.SHORT);
-          
-        } else {
-          //AlertIOS.alert('mauvais mdp ou mail');
-        }
+        Alert.alert('Error', 'erreur dans le mdp ou mail');
 
       });
 
@@ -144,7 +132,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
     paddingHorizontal: 10,
-  },
+  }
 });
 
 // https://stackoverflow.com/questions/77048569/issue-with-initializing-firebase-auth-for-react-native-using-asyncstorage

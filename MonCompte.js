@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { getAuth, updateEmail, sendPasswordResetEmail, signOut } from "firebase/auth";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-const MonCompteScreen = ({route}) => {
+const MonCompteScreen = ({navigation, route}) => {
   const [newEmail, setNewEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
 
-  const { auth } = route.params.auth;
+  const auth= getAuth();
+  const user_email= auth.currentUser.email;
 
   const changeEmail = () => {
-    const user = auth.currentUser;
+    //const user = auth.currentUser;
 
-    user.updateEmail(newEmail).then(() => {
-      Alert.alert('Success', 'Adresse e-mail mise à jour avec succès');
-    }).catch((error) => {
-      Alert.alert('Error', error.message);
-    });
+    updateEmail(auth.currentUser, newEmail).then(() => {
+        // Email updated!
+        Alert.alert('Success', 'Email mis à jour avec succès');
+      }).catch((error) => {
+        // An error occurred
+        Alert.alert('Error', error.message);
+
+      });
   };
 
   const changePassword = () => {
-    const user = auth().currentUser;
+    sendPasswordResetEmail(auth, user_email)
+    .then(() => {
+        // Password reset email sent!
+        Alert.alert('Success', 'un email vous a été envoyé');
 
-    user.updatePassword(newPassword).then(() => {
-      Alert.alert('Success', 'Mot de passe mis à jour avec succès');
-    }).catch((error) => {
-      Alert.alert('Error', error.message);
+    })
+    .catch((error) => {
+        Alert.alert('Error', error);
     });
   };
 
-  const signOut = () => {
-    auth().signOut().then(() => {
-      // Redirection vers l'écran de connexion, par exemple
+  const signOutUser = () => {
+    signOut(auth)
+    .then(() => {
+        navigation.navigate("Auth");
     }).catch((error) => {
-      Alert.alert('Error', error.message);
+        Alert.alert('Error', error);
     });
   };
 
@@ -46,15 +53,9 @@ const MonCompteScreen = ({route}) => {
       />
       <Button title="Changer d'e-mail" onPress={changeEmail} />
 
-      <TextInput
-        placeholder="Nouveau mot de passe"
-        secureTextEntry={true}
-        onChangeText={(text) => setNewPassword(text)}
-        value={newPassword}
-      />
       <Button title="Changer de mot de passe" onPress={changePassword} />
 
-      <Button title="Se déconnecter" onPress={signOut} />
+      <Button title="Se déconnecter" onPress={signOutUser} />
     </View>
   );
 };

@@ -22,7 +22,7 @@ export default function App({ navigation, route }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null); // État pour la ville sélectionnée
-  const userUid = route.params?.uid;
+  //const {auth} = route.params.auth;
 
   useEffect(() => {
     const getCoordinates = async () => {
@@ -63,24 +63,6 @@ const handleGetCurrentLocation = async () => {
   updateWeather(userLocation.coords.latitude, userLocation.coords.longitude);
 };
 
-const goToFavoris = async () => {
-  let auth= route.params.auth;
-  auth = auth.currentUser;
-  auth = auth.uid;
-
-  const database= route.params.database;
-
-
-  if (userUid) {
-    navigation.navigate('Favoris', { userUid });
-  } else {
-    // Gérez le cas où les paramètres ne sont pas passés ou auth est undefined
-    console.error('Authentification requise');
-    // Vous pouvez choisir de renvoyer l'utilisateur à l'écran de connexion
-    // ou afficher un message d'erreur, selon le comportement souhaité.
-  }
-}
-
 //affichage d'un chargement pendant la récupération de la position gps
   if (loading) {
     return <View style={styles.container}>
@@ -109,11 +91,7 @@ const goToFavoris = async () => {
           />
         </View>
       </ScrollView>
-      <NavBar data={data} auth={route.params.auth} database={route.params.database} navigation={navigation}/>
-      <Button
-        title="vers les favoris"
-        onPress={goToFavoris} // Exemple de valeurs pour latitude et longitude
-      />
+      <NavBar data={data} auth={route.params} database={route.params.database} navigation={navigation}/>
     </View>
   );
 }
