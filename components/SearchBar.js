@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, FlatList, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import axios from 'axios';
-import { onCitySelect } from '../Main';
+import {onCitySelect} from '../Main';
 
 const WeatherSearch = (props) => {
   const [search, setSearch] = useState('');

@@ -64,6 +64,7 @@ const COLOR = "#000000"
 const styles = StyleSheet.create({
   container: {
     height: "65%",
+    paddingBottom: 50,
   },
 
   title: {
