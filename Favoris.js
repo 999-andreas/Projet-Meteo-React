@@ -13,9 +13,6 @@ const FavoriteLocationsScreen = ({route}) => {
   console.log("--------------------------");
   console.log(auth);
 
-  //const { auth } = auth.currentUser;
-
-
   useEffect(() => {
     const fetchFavoriteLocations = async () => {
       if (auth) {

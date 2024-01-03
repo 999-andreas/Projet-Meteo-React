@@ -88,10 +88,10 @@ export default function AuthScreen({navigation}) {
 
 
   };
+  /*
   const goToMain = async () => {
-    const user = userCredential.user;
     navigation.navigate('Main', { userId: user.uid });
-  }
+  }*/
   return (
     <View style={styles.container}>
       <TextInput
@@ -109,7 +109,6 @@ export default function AuthScreen({navigation}) {
       />
       <Button title="S'inscrire" onPress={handleSignUp} />
       <Button title="Se connecter" onPress={handleSignIn} />
-      <Button title="Accès direct" onPress={goToMain} />
     </View>
   );
 }

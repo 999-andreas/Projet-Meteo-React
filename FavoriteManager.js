@@ -3,11 +3,6 @@ import 'firebase/auth';
 import { getDatabase, ref, set, child, get} from "firebase/database";
 
 const getFavoriteLocationsByUser = (userID) => {
-  /*const currentUser = auth.currentUser;
-    console.log(userID);
-  if (!currentUser) {
-    return Promise.reject('Utilisateur non connecté.');
-  }*/
 
   const database = getDatabase();
   const dbRef = ref(database);
@@ -28,11 +23,6 @@ const getFavoriteLocationsByUser = (userID) => {
 };
 
 const addFavoriteLocation = (favoriteID, latitude, longitude, userID ) => {
-    /*const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-        return Promise.reject('Utilisateur non connecté.');
-    }*/
 
     const database = getDatabase();
 
