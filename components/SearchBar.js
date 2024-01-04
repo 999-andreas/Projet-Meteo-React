@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, StyleSheet, Modal, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import axios from 'axios';
-import { onCitySelect } from '../Main';
+import {onCitySelect} from '../Main';
+import logo from '../assets/logo-meteo.png';
 
 const WeatherSearch = (props) => {
   const [search, setSearch] = useState('');
@@ -72,7 +73,8 @@ const WeatherSearch = (props) => {
   // Ajoutez ici la logique pour gérer la sélection d'une ville
 
   return (
-    <View>
+    <View style={styles.searchContainer}>
+      <Image source={logo} style={styles.logo} />
       <SearchBar
         containerStyle={{
           ...styles.searchBar,
@@ -116,8 +118,16 @@ const WeatherSearch = (props) => {
 };
 
 const styles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: 'row', // Aligner horizontalement
+    alignItems: 'center', // Aligner verticalement au centre
+  },
+  logo: {
+    width: 80, // Ajustez en fonction de la taille souhaitée
+    height: 80, // Assurez-vous que la hauteur correspond à celle de la barre de recherche // Espace entre le logo et la barre de recherche
+  },
   searchBar: {
-    marginTop: '3%',
+    flex: 1,
     width: '100%'
   },
   modalOverlay: {
@@ -130,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(96, 146, 205, 0.95)', //couleur et transparence
     padding: 20,
     elevation: 5,
-    marginTop: '30%',
+    marginTop: '32%',
     borderRadius: 10,
     width: '90%',
   },

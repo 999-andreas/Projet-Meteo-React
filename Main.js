@@ -56,12 +56,33 @@ const onCitySelect = (city) => {
 
   return (
     <View style={styles.container}>
-      <Search onCitySelect={onCitySelect} data={data} />
-      <ScrollView>
-        <CurrentWeather data={data} />
-        <Forecasts data={data} />
-      </ScrollView>
-      
+      <View style={styles.mainContent}>
+        <Search onCitySelect={onCitySelect} data={data} />
+        <ScrollView>
+          <CurrentWeather data={data} />
+          <Forecasts data={data} />
+          <View style={styles.buttonContainer}>
+            <Button
+              buttonStyle={styles.roundButton}
+              icon={
+                <Icon
+                  name="location-arrow" // Nom de l'icône, peut varier selon la bibliothèque d'icônes
+                  size={30}
+                  color="white"
+                />
+              }
+              onPress={handleGetCurrentLocation}
+            />
+          </View>
+        </ScrollView>
+      </View>
+      <View style={{backgroundColor: '#6092CD'}}>
+        <NavBar data={data}
+              auth={route.params}
+              database={route.params.database}
+              navigation={navigation}
+              style={{backgroundColor: '#6092CD'}}/>
+      </View>
     </View>
   );
 }
@@ -72,10 +93,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#77B5FE',
+  },
+  mainContent: {
+    flex: 1,
+    backgroundColor: '#77B5FE',
     padding: 8,
   },
   chargement: {
     textAlign: 'center',
     //propriétés pour texte de chargement
-  }
+  },
+  buttonContainer: {
+    position: 'absolute',
+    left: "80%",
+    bottom: "35%",
+  },
+  roundButton: {
+    borderRadius: 30, // Rend le bouton rond
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#6092CD'
+  },
+
 });

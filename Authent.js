@@ -1,10 +1,12 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
 import { AsyncStorage } from '@react-native-async-storage/async-storage'; // Si vous utilisez AsyncStorage
-import { View, StyleSheet, TextInput, Button, ToastAndroid, Platform, AlertIOS } from 'react-native';
+import { View, StyleSheet, TextInput, ToastAndroid, Platform, Alert, Image } from 'react-native';
+import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-
+import { getDatabase } from "firebase/database";
+import logo from './assets/logo-meteo.png';
 
 
 const firebaseConfig = {
@@ -72,25 +74,16 @@ export default function AuthScreen({navigation}) {
         const user = userCredential.user;
         console.log('Utilisateur connecté :', user);
 
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('Vous êtes maintenant connecté !', ToastAndroid.SHORT);
-          
-        } else {
-          //AlertIOS.alert('Vous êtes maintenant connecté !');
-        }
+        Alert.alert('Success', 'Vous êtes connecté');
 
-        navigation.navigate('Main');
+        console.log(user.uid);
+        navigation.navigate('Main', { userId: user.uid });
         // ...
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log('erreur:', errorMessage, );
-        if (Platform.OS === 'android') {
-          ToastAndroid.show('mauvais mdp ou mail', ToastAndroid.SHORT);
-          
-        } else {
-          //AlertIOS.alert('mauvais mdp ou mail');
-        }
+        Alert.alert('Error', 'Erreur dans le mail ou mot de passe');
 
       });
 
@@ -101,6 +94,7 @@ export default function AuthScreen({navigation}) {
   }
   return (
     <View style={styles.container}>
+      <Image source={logo} style={styles.logo} />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -114,9 +108,8 @@ export default function AuthScreen({navigation}) {
         value={password}
         secureTextEntry
       />
-      <Button title="S'inscrire" onPress={handleSignUp} />
-      <Button title="Se connecter" onPress={handleSignIn} />
-      <Button title="Accès direct" onPress={goToMain} />
+      <Button title="S'inscrire" onPress={handleSignUp} buttonStyle={styles.button}/>
+      <Button title="Se connecter" onPress={handleSignIn} buttonStyle={styles.button}/>
     </View>
   );
 }
@@ -128,18 +121,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: "#77B5FE",
+  },
+  logo: {
+    width: 400,
+    height: 400,
   },
   content: {
     alignItems: 'center',
     width: '80%', 
   },
   input: {
-    width: '100%',
+    width: '90%',
     height: 40,
     marginBottom: 20,
     borderWidth: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
+  button: {
+    borderRadius: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#6092CD'
+  }
 });
 
 // https://stackoverflow.com/questions/77048569/issue-with-initializing-firebase-auth-for-react-native-using-asyncstorage
