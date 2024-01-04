@@ -12,6 +12,7 @@ import logo from './assets/logo-meteo.png';
 const firebaseConfig = {
   apiKey: "AIzaSyDZJtasU-lCRwzOJy6SvVhnFp0mlHdhi6Q",
   authDomain: "weatherapp-d7948.firebaseapp.com",
+  databaseURL: "https://weatherapp-d7948-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "weatherapp-d7948",
   storageBucket: "weatherapp-d7948.appspot.com",
   messagingSenderId: "152564061772",

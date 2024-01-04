@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, Image, ScrollView } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Button } from 'react-native-elements';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-import axios from "axios"
+import axios from "axios";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CurrentWeather from "./components/currentWeather"
 import Forecasts from "./components/Forecasts"
 import Search from './components/SearchBar';
 import { fetchWeather } from './weatherApi';
+import NavBar from './components/NavBar';
+import MonCompteScreen from './MonCompte';
 
 //implémentation des coordonnées dans l'API
 const API_URL = (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9cceaa071674faa23e4fc606cf7a6c1d&lang=fr&units=metric`
 
-export default function App() {
+export default function App({ navigation, route }) {
 
 //Récupération des coordonnées de user
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null); // État pour la ville sélectionnée
+  //const {auth} = route.params.auth;
 
   useEffect(() => {
     const getCoordinates = async () => {
@@ -41,9 +45,22 @@ export default function App() {
   setLoading(false);
 };
 
+//fonction de mise à jour des infos de météo en fonction de la ville selectionnée
 const onCitySelect = (city) => {
   setSelectedCity(city);
-  updateWeather(city.latitude, city.longitude); // Mettez à jour la météo pour la ville sélectionnée
+  updateWeather(city.latitude, city.longitude);
+};
+
+//fonction de retour à la position de l'utilisateur
+const handleGetCurrentLocation = async () => {
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
+    // Gérer le cas où les permissions ne sont pas accordées
+    return;
+  }
+
+  const userLocation = await Location.getCurrentPositionAsync();
+  updateWeather(userLocation.coords.latitude, userLocation.coords.longitude);
 };
 
 //affichage d'un chargement pendant la récupération de la position gps
