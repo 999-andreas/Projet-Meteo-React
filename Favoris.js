@@ -40,9 +40,9 @@ const FavoriteLocationsScreen = ({navigation, route}) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.itemListe}>
-      <Text>Latitude: {item.latitude}</Text>
-      <Text>Longitude: {item.longitude}</Text>
-      <Text>Localisation: {item.localisation}</Text>
+        <Text style={{fontSize: 30, fontWeight: "400", textAlign: 'center',}}>{item.localisation}</Text>
+        <Text>Latitude: {item.latitude}</Text>
+        <Text>Longitude: {item.longitude}</Text>
     </View>
   );
 
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
+      alignItems: 'center',
       backgroundColor: '#77B5FE',
       padding: 8,
     },
@@ -99,13 +100,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#6092CD'
     },
     itemListe: {
-        // Styles pour le modal, par exemple :
         backgroundColor: 'rgba(96, 146, 205, 0.95)', //couleur et transparence
         padding: 20,
         elevation: 5,
+        alignItems: 'center',
         marginTop: '2%',
         borderRadius: 10,
-        width: '90%',
+        width: '100%',
       },
   });
 

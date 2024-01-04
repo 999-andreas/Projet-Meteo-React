@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, Text } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { getAuth, updateEmail, sendPasswordResetEmail, signOut } from "firebase/auth";
 import firebase from 'firebase/app';
@@ -60,13 +60,9 @@ const MonCompteScreen = ({navigation, route}) => {
         containerStyle={styles.backButtonContainer}
         onPress={() => navigation.goBack()}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Nouvelle adresse e-mail"
-        onChangeText={(text) => setNewEmail(text)}
-        value={newEmail}
-      />
-      <Button title="Changer d'e-mail" onPress={changeEmail} buttonStyle={styles.button} />
+      <Text style={styles.title}>Profil</Text>
+      <Text style={styles.user}>Utilisateur :</Text>
+      <Text style={styles.mail}>{user_email}</Text>
 
       <Button title="Changer de mot de passe" onPress={changePassword} buttonStyle={styles.button}/>
 
@@ -79,14 +75,28 @@ const MonCompteScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+
         backgroundColor: '#77B5FE',
         padding: 8,
     },
-    input: {
-        width: '90%',
-        height: 40,
-        borderWidth: 1,
+    title: {
+        paddingTop: 50,
+        fontSize: 50,
+        fontWeight: "500",
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    },
+    user: {
+        paddingTop: "50%",
+        fontSize: 20,
+        fontWeight: "300",
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    },
+    mail: {
+        fontSize: 24,
+        fontWeight: "400",
+        textAlign: 'center',
         paddingHorizontal: 20,
     },
     button: {
